@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## 🚀 Next.js 16 Template (Redux Toolkit + TanStack Query)
 
-## Getting Started
+Opinionated template focused on keeping API calls clean, typed, and easy to maintain. 🧩
 
-First, run the development server:
+### 🧷 Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- `next@16` (App Router) ⚡
+- `reduxjs/toolkit` for global state 🗃️
+- `@tanstack/react-query` for remote data (caching + sync) 🔄
+- `axios` for HTTP requests 🌐
+- `next-intl` for i18n translations 🌍
+- `vitest` for unit tests 🧪
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 📁 Code Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`api/` (HTTP + React Query boundary)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `api/base.ts`: base HTTP client configuration (axios)
+- `api/services/`: pure functions that execute requests with axios (GET/POST/PATCH/etc.)
+- `api/hooks/`: React Query hooks (`useQuery`, `useMutation`) that call the services
+- `api/constants/`: shared constants (e.g. `APP_ROUTES`)
+- `api/types/`: request/response types
 
-## Learn More
+`lib/` (application utilities)
 
-To learn more about Next.js, take a look at the following resources:
+- `lib/store.ts`: Redux Toolkit store creation/definition (`makeStore`)
+- `lib/hooks.ts`: typed Redux hooks (`useAppDispatch`, `useAppSelector`, `useAppStore`)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🔁 Typical Flow
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+UI (component) → `api/hooks/*` → `api/services/*` → `api/base.ts`
 
-## Deploy on Vercel
+### 🧰 Scripts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `npm run dev`: start the development server
+- `npm run build`: build Next
+- `npm run start`: run the app in production
+- `npm run lint`: lint with ESLint
+- `npm test`: run tests with Vitest
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### ➕ Adding a New API Call
+
+1. Create types in `api/types/*`
+2. Implement the request in `api/services/*`
+3. Create the hook in `api/hooks/*` using `useQuery`/`useMutation`
+4. (Optional) Use Redux for global state when it makes sense
+
+### ✅ Notes
+
+- Separating `services` (HTTP) vs `hooks` (React Query) makes code easier to reuse and test.
+- React Query hooks centralize `queryKey`, `staleTime`, `enabled`, and invalidation after mutations.
+
+### 🌍 Internationalization (i18n)
+
+This template includes `next-intl` to support translations and localized content.
+
+- Default locale: `en`
+- Translation messages live in `app/messages/*`
+- The i18n provider is wired in `app/layout.tsx`
