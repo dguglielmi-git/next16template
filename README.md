@@ -38,6 +38,17 @@ UI (component) → `api/hooks/*` → `api/services/*` → `api/base.ts`
 - `npm run lint`: lint with ESLint
 - `npm test`: run tests with Vitest
 
+### 🧪 Testing (Vitest)
+
+This project uses **Vitest** for unit tests.
+
+- Run all tests once:
+  - `npm test`
+- Run in watch mode:
+  - `npm run test:watch`
+
+By convention, tests live under `src/__tests__/*`.
+
 ### ➕ Adding a New API Call
 
 1. Create types in `api/types/*`
