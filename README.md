@@ -50,6 +50,26 @@ UI (component) → `api/hooks/*` → `api/services/*` → `api/base.ts`
 - Separating `services` (HTTP) vs `hooks` (React Query) makes code easier to reuse and test.
 - React Query hooks centralize `queryKey`, `staleTime`, `enabled`, and invalidation after mutations.
 
+### 📐 Conventions
+
+**API services (`api/services/*`)**
+
+- Keep them as pure async functions that only do HTTP work (no React hooks, no UI logic).
+- Return `response.data` (where applicable) so hooks can stay simple.
+- Use constants from `api/constants/*` for endpoints (example: `APP_ROUTES`).
+
+**API types (`api/types/*`)**
+
+- Define request/response DTOs close to the feature they belong to.
+- Use consistent naming:
+  - `ExampleGet`, `ExamplePostData`, `ExamplePatch`, etc.
+
+**React Query hooks (`api/hooks/*`)**
+
+- Always provide a stable `queryKey` (use parameterized keys for ids/filters).
+- Encapsulate `enabled`, `staleTime`, and `refetchOnWindowFocus` inside the hook.
+- For mutations, invalidate the specific affected query keys in `onSuccess`.
+
 ### 🌍 Internationalization (i18n)
 
 This template includes `next-intl` to support translations and localized content.
